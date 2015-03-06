@@ -1,0 +1,312 @@
+set rtp=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+
+let mapleader = ","
+let g:mapleader = ","
+
+" Improve!
+set nocompatible
+
+" Automatically source the vim config when saved. Because convenience or
+" something.
+au! bufwritepost .vimrc source %
+
+" "
+" Vundle.
+" "
+filetype off
+
+set rtp+=$XDG_CONFIG_HOME/vim/bundle/vundle/
+call vundle#begin('$XDG_CONFIG_HOME/vim/bundle')
+
+Plugin 'gmarik/vundle'
+
+" "
+" Vundle bundles.
+" "
+
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'airblade/vim-gitgutter'
+"Plugin 'msanders/snipmate.vim'
+"Plugin 'wombat256.vim'
+"Plugin 'xolox/vim-lua-ftplugin'
+"Plugin 'xolox/vim-lua-inspect'
+"Plugin 'xolox/vim-misc'
+"Plugin 'Rip-Rip/clang_complete'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'bling/vim-airline'
+Plugin 'edkolev/promptline.vim'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'glsl.vim'
+Plugin 'jnurmine/Zenburn'
+Plugin 'majutsushi/tagbar'
+Plugin 'nanotech/jellybeans.vim'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-fugitive'
+Plugin 'dhruvasagar/vim-table-mode'
+
+call vundle#end()
+
+" "
+" Unholy mess of options.
+" "
+
+" glsl filetypes.
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
+
+" clarion filetypes
+au BufNewFile,BufRead *.clw setf clarion
+
+" Expand all folds by default
+set foldlevelstart=99
+
+" LuaInspect options
+let g:lua_inspect_events = ""
+
+" airline options
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+endif
+let g:airline_symbols.space = "\ua0"
+
+" Restore filetype.
+filetype plugin indent on
+set omnifunc=syntaxcomplete#Complete
+
+" Neocomplete settings.
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+
+inoremap <expr><c-g> neocomplete#undo_completion()
+inoremap <expr><c-l> neocomplete#complete_common_string()
+
+inoremap <silent> <cr> <c-r>=<sid>cr_function()<cr>
+function! s:cr_function()
+	return neocomplete#close_popup() ."\<cr>"
+endfunction
+
+inoremap <expr><tab>  pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><C-h>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+
+au FileType css			setlocal omnifunc=csscomplete#CompleteCSS
+au FileType html,markdown	setlocal omnifunc=htmlcomplete#CompleteTags
+au FileType javascript		setlocal omnifunc=javascriptcomplete#CompleteJS
+au FileType python		setlocal omnifunc=pythoncomplete#Complete
+au FileType xml			setlocal omnifunc=xmlcomplete#CompleteTags
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+  let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_overwrite_completefunc = 1
+"let g:neocomplete#force_omni_input_patterns.c =
+      "\ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp =
+      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc =
+      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.objcpp =
+      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+
+"" clang_complete settings.
+"let g:clang_complete_auto = 0
+"let g:clang_auto_select = 0
+""let g:clang_use_library = 1
+"let g:clang_snippets = 1
+"let g:clang_snippet_engine = 'clang_complete'
+"let g:clang_complete_macros = 1
+"let g:clang_complete_patterns = 1
+
+" Vim multiple cursors compatibility with neocomplete
+function! Multiple_cursors_before()
+	exe 'NeoCompleteLock'
+endfunction
+
+function! Multiple_cursors_after()
+	exe 'NeoCompleteUnlock'
+endfunction
+
+" TODO: Group this stuff somewhere else.
+set backspace=indent,eol,start
+set history=50
+set ruler
+set showcmd
+set is
+set number
+set relativenumber
+set bg=dark
+set wrap
+set textwidth=0
+set wrapmargin=0
+
+set ignorecase
+set smartcase
+
+if has('mouse')
+	set mouse=a
+endif
+
+" Syntax highlighting.
+if &t_Co > 2 || has("gui_running")
+	syntax on
+	set hls
+endif
+
+" Colourscheme
+if &t_Co == 256 || has("gui_running")
+	color jellybeans
+else
+	color delek
+endif
+
+" GVim font
+if has("gui_running")
+	set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline\ 9
+endif
+
+au BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+" Backup settings
+silent !mkdir $HOME/.cache $HOME/.cache/vim $HOME/.cache/vim/{backup,swap,undo} >/dev/null 2>&1
+
+au BufWritePre * let &backupext = '.' . strftime("%Y%m%d_%H%M%S")
+
+set backup
+set backupdir=$HOME/.cache/vim/backup
+set swapfile
+set directory=$HOME/.cache/vim/swap
+set undofile
+set undodir=$HOME/.cache/vim/undo
+set viminfo+=n$XDG_CONFIG_HOME/vim/viminfo
+
+" Tab options
+"set expandtab
+set smarttab
+set shiftwidth=8
+set tabstop=8
+
+" Trailing whitespace and stuff.
+set listchars=tab:»·,trail:·
+set list
+
+" Indentation.
+set ai "Auto indent
+set si "Smart indent
+
+" Status line.
+set laststatus=2
+
+" Spelling stuff.
+set spelllang=en_gb
+nnoremap <leader>ss :setlocal spell!<cr>
+
+" Allow buffers to exist in the background.
+set hidden
+
+" Buffer navigation.
+nnoremap <F7> :bprev<cr>
+nnoremap <F8> :bnext<cr>
+
+" Useful IDEesque mappings.
+nnoremap <F4> :wall<cr>
+nnoremap <F5> :make<cr>
+nnoremap <F6> :cw<cr>
+
+" List buffers and open buffer going prompt.
+nnoremap gb :ls<cr>:b<space>
+
+" Set filetype
+nnoremap <leader>ff :set ft=
+
+" Unbind the cursor keys in insert, normal and visual modes.
+for prefix in ['i', 'n', 'v']
+	for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+		exe prefix . "noremap " . key . " <Nop>"
+	endfor
+endfor
+
+" Sort text alphabetically
+vnoremap <Leader>s :sort<CR>
+
+" Easier navigation in insert mode.
+inoremap <silent> <c-h> <left>
+inoremap <silent> <c-j> <down>
+inoremap <silent> <c-k> <up>
+inoremap <silent> <c-l> <right>
+
+" When some silly puts trailing whitespace in my files or uses tabs.
+nnoremap <silent> <leader>rw :let _tsval = @/<cr>:%s/\s*$//<cr>:let @/ = _tsval<cr>
+
+" Colorcolumn magics.
+highlight ColorColumn ctermbg=black
+call matchadd('ColorColumn', '\%81v', 100)
+
+" "
+" Relative and normal number lines
+" Toggle with ,n
+nnoremap <silent> <leader>n :set relativenumber!<cr>
+
+" Switch to normal when loosing focus and back when gaining
+au FocusLost * :set norelativenumber
+au FocusGained * :set relativenumber
+
+" Switch to normal when insert mode
+au InsertEnter * :set norelativenumber
+au InsertLeave * :set relativenumber
+" "
+
+" Clear highlighting
+nnoremap <silent> <f3> :nohlsearch<cr>
+
+" Really clear highlighting
+nnoremap <silent> <leader>ch :let @/ = ""<cr>
+
+" GUI
+" Navigating windows.
+nnoremap <silent> <A-h> <C-w>h
+nnoremap <silent> <A-j> <C-w>j
+nnoremap <silent> <A-k> <C-w>k
+nnoremap <silent> <A-l> <C-w>l
+
+" Moving windows.
+nnoremap <silent> <A-H> <C-w>H
+nnoremap <silent> <A-J> <C-w>J
+nnoremap <silent> <A-K> <C-w>K
+nnoremap <silent> <A-L> <C-w>L
+
+" Resizing windows.
+nnoremap <silent> <A-u> <C-w><
+nnoremap <silent> <A-i> <C-w>+
+nnoremap <silent> <A-o> <C-w>-
+nnoremap <silent> <A-p> <C-w>>
+
+" CLI
+" Navigating windows.
+nnoremap <silent> h <C-w>h
+nnoremap <silent> j <C-w>j
+nnoremap <silent> k <C-w>k
+nnoremap <silent> l <C-w>l
+
+" Moving windows.
+nnoremap <silent> H <C-w>H
+nnoremap <silent> J <C-w>J
+nnoremap <silent> K <C-w>K
+nnoremap <silent> L <C-w>L
+
+" Resizing windows.
+nnoremap <silent> u <C-w><
+nnoremap <silent> i <C-w>+
+nnoremap <silent> o <C-w>-
+nnoremap <silent> p <C-w>>
+
+" Space to toggle fold
+nnoremap <silent> <space> za
