@@ -29,6 +29,8 @@ font pango:Bitstream Vera Sans Mono 9
 # use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
 
+hide_edge_borders both
+
 # start a terminal
 # bindsym Mod4+Return exec i3-sensible-terminal
 bindsym Mod4+Return exec termite
@@ -42,11 +44,13 @@ bindsym Mod4+u border none
 for_window [class="Termite"] border 1pixel
 #for_window [class="URxvt"] border 1pixel
 for_window [class="Steam"] border none
-for_window [class="Firefox"] border none
+for_window [class="Firefox"] border 1pixel
 for_window [class="mpv"] floating enable
 for_window [class="mpv"] border 1pixel
 for_window [class="Pavucontrol"] floating enable
 for_window [class="Emacs"] border 1pixel
+for_window [class="qemu-system-i386"] floating enable
+for_window [class="URxvt"] border 1pixel
 
 # workspace assignments
 assign [class="Steam"] 5
@@ -231,12 +235,17 @@ bindsym Mod4+Shift+bracketleft  move container to output left
 bindsym Mod4+Shift+bracketright move container to output right
 
 # Thinkpad Keys
-# volume
-bindsym XF86AudioRaiseVolume exec --no-startup-id volume-i3blocks 150 increase 5
-bindsym XF86AudioLowerVolume exec --no-startup-id volume-i3blocks 150 decrease 5
+# audio
+bindsym XF86AudioRaiseVolume exec --no-startup-id i3blocks-volume 150 increase 5
+bindsym XF86AudioLowerVolume exec --no-startup-id i3blocks-volume 150 decrease 5
+bindsym XF86AudioMute        exec --no-startup-id i3blocks-mute
+bindsym XF86AudioMicMute     exec --no-startup-id i3blocks-micmute
 
 # lock
-bindsym XF86ScreenSaver exec i3lock
+bindsym XF86ScreenSaver exec --no-startup-id blurlock
 
 # pavucontrol
 bindsym XF86WebCam exec pavucontrol
+
+# trackpad
+bindsym XF86TouchpadToggle exec --no-startup-id i3blocks-trackpad

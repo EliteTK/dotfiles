@@ -37,17 +37,17 @@ signal=12
 [volume]
 #label=VOL
 label=♪
-instance=150/5
+instance=200/5
 #instance=PCM
 command=/home/main/bin/volume
 interval=once
 signal=10
 
-[memory]
-#label=M
-command=/usr/libexec/i3blocks/memory
-#separator=false
-interval=30
+#[memory]
+##label=M
+#command=/usr/libexec/i3blocks/memory
+##separator=false
+#interval=30
 
 #[swap]
 #label=SWAP
@@ -95,3 +95,9 @@ interval=30
 [time]
 command=date '+%Y-%m-%d %H:%M:%S %:z'
 interval=1
+separator=false
+
+[trackpad]
+command=/home/main/bin/trackpad
+signal=11
+interval=once

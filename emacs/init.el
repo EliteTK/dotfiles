@@ -15,26 +15,21 @@
 (load-theme 'wombat t)
 
 ;; Stuff
-(setq inhibit-startup-message t)
-;; (setq-default frame-title-format
-;; 	      (list '((buffer-file-name " %f"
-;; 					(dired-directory
-;; 					 dired-directory
-;; 					 (revert-buffer-function " %b"
-;; 								 ("%b - Dir: " default-directory)))))))
+;; (setq inhibit-startup-message t)
 
 ;; Evil-leader
-(global-evil-leader-mode)
+;; (global-evil-leader-mode)
 
 ;; Evil
-(require 'evil)
-(evil-mode 1)
+;; (require 'evil)
+;; (evil-mode 1)
 
 ;; More Evil-leader
-(evil-leader/set-leader ",")
-(evil-leader/set-key "c" 'evilnc-comment-or-uncomment-lines)
-(evil-leader/set-key "C" 'evilnc-quick-comment-or-uncomment-to-the-line)
-(evil-leader/set-key "w" 'cleanup-whitespace)
+;; (evil-leader/set-leader ",")
+;; (evil-leader/set-key "c" 'evilnc-comment-or-uncomment-lines)
+;; (evil-leader/set-key "C" 'evilnc-quick-comment-or-uncomment-to-the-line)
+;; (evil-leader/set-key "w" 'cleanup-whitespace)
+;; (evil-leader/set-key "k" 'c-set-style "linux-tabs-only")
 
 ;; Kernel coding style for emacs
 (defun c-lineup-arglist-tabs-only (ignored)
@@ -47,27 +42,27 @@
        c-basic-offset)))
 
 (add-hook 'c-mode-common-hook
-          (lambda ()
-            ;; Add kernel style
-            (c-add-style
-             "linux-tabs-only"
-             '("linux" (c-offsets-alist
-                        (arglist-cont-nonempty
-                         c-lineup-gcc-asm-reg
-                         c-lineup-arglist-tabs-only))))))
+	  (lambda ()
+	    ;; Add kernel style
+	    (c-add-style
+	     "linux-tabs-only"
+	     '("linux" (c-offsets-alist
+			(arglist-cont-nonempty
+			 c-lineup-gcc-asm-reg
+			 c-lineup-arglist-tabs-only))))))
 
 (add-hook 'c-mode-hook
-          (lambda ()
-            (let ((filename (buffer-file-name)))
-              ;; Enable kernel mode for the appropriate files
-              ;; (when (and filename
-              ;;            (string-match (expand-file-name "~/src/linux-trees")
-              ;;                          filename))
-                (setq indent-tabs-mode t)
-                (setq show-trailing-whitespace t)
-                (c-set-style "linux-tabs-only"))));;)
+	  (lambda ()
+	    (let ((filename (buffer-file-name)))
+	      Enable kernel mode for the appropriate files
+	      (when (and filename
+			 (string-match (expand-file-name "~/src/linux-trees")
+				       filename))
+		(setq indent-tabs-mode t)
+		(setq show-trailing-whitespace t)
+		(c-set-style "linux-tabs-only")))))
 
-(setq c-default-style "linux")
+(setq c-default-style "linux-tabs-only")
 
 ;; Linum
 (require 'linum-relative)

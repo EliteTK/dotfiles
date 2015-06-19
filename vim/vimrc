@@ -24,14 +24,6 @@ Plugin 'gmarik/vundle'
 " Vundle bundles.
 " "
 
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'airblade/vim-gitgutter'
-"Plugin 'msanders/snipmate.vim'
-"Plugin 'wombat256.vim'
-"Plugin 'xolox/vim-lua-ftplugin'
-"Plugin 'xolox/vim-lua-inspect'
-"Plugin 'xolox/vim-misc'
-"Plugin 'Rip-Rip/clang_complete'
 Plugin 'Shougo/neocomplete.vim'
 Plugin 'bling/vim-airline'
 Plugin 'edkolev/promptline.vim'
@@ -46,38 +38,26 @@ Plugin 'scrooloose/syntastic'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-fugitive'
 Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vivien/vim-addon-linux-coding-style'
 
 call vundle#end()
 
+filetype plugin indent on
+
 " "
-" Unholy mess of options.
+" Plugin Settings
 " "
 
-" glsl filetypes.
-au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl
-
-" clarion filetypes
-au BufNewFile,BufRead *.clw setf clarion
-
-" Expand all folds by default
-set foldlevelstart=99
-
-" LuaInspect options
-let g:lua_inspect_events = ""
-
-" airline options
+" Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
+    let g:airline_symbols = {}
 endif
 let g:airline_symbols.space = "\ua0"
 
-" Restore filetype.
-filetype plugin indent on
-set omnifunc=syntaxcomplete#Complete
-
-" Neocomplete settings.
+" Neocomplete
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 
@@ -86,7 +66,7 @@ inoremap <expr><c-l> neocomplete#complete_common_string()
 
 inoremap <silent> <cr> <c-r>=<sid>cr_function()<cr>
 function! s:cr_function()
-	return neocomplete#close_popup() ."\<cr>"
+    return neocomplete#close_popup() ."\<cr>"
 endfunction
 
 inoremap <expr><tab>  pumvisible() ? "\<c-n>" : "\<tab>"
@@ -95,182 +75,138 @@ inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 
-au FileType css			setlocal omnifunc=csscomplete#CompleteCSS
-au FileType html,markdown	setlocal omnifunc=htmlcomplete#CompleteTags
-au FileType javascript		setlocal omnifunc=javascriptcomplete#CompleteJS
-au FileType python		setlocal omnifunc=pythoncomplete#Complete
-au FileType xml			setlocal omnifunc=xmlcomplete#CompleteTags
-
 if !exists('g:neocomplete#force_omni_input_patterns')
   let g:neocomplete#force_omni_input_patterns = {}
 endif
-let g:neocomplete#force_overwrite_completefunc = 1
-"let g:neocomplete#force_omni_input_patterns.c =
-      "\ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp =
-      \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc =
-      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-let g:neocomplete#force_omni_input_patterns.objcpp =
-      \ '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+let g:neocomplete#force_overwrite_completefunc     = 1
+"let g:neocomplete#force_omni_input_patterns.c      = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+let g:neocomplete#force_omni_input_patterns.cpp    = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+let g:neocomplete#force_omni_input_patterns.objc   = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+let g:neocomplete#force_omni_input_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
 
-"" clang_complete settings.
-"let g:clang_complete_auto = 0
-"let g:clang_auto_select = 0
-""let g:clang_use_library = 1
-"let g:clang_snippets = 1
-"let g:clang_snippet_engine = 'clang_complete'
-"let g:clang_complete_macros = 1
-"let g:clang_complete_patterns = 1
-
-" Vim multiple cursors compatibility with neocomplete
+" Vim multiple cursors
 function! Multiple_cursors_before()
-	exe 'NeoCompleteLock'
+    exe 'NeoCompleteLock'
 endfunction
 
 function! Multiple_cursors_after()
-	exe 'NeoCompleteUnlock'
+    exe 'NeoCompleteUnlock'
 endfunction
 
-" TODO: Group this stuff somewhere else.
-set backspace=indent,eol,start
-set history=50
-set ruler
-set showcmd
-set is
-set number
-set relativenumber
-set bg=dark
-set wrap
-set textwidth=0
-set wrapmargin=0
+" "
+" Autocommands
+" "
 
-set ignorecase
-set smartcase
+" Filetypes
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl  " GLSL
+au BufNewFile,BufRead *.clw setf clarion                        " Clarion
+au BufNewFile,BufRead *.rfc setf rfc                            " RFC
 
-if has('mouse')
-	set mouse=a
-endif
+" Neocomplete
+au FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+au FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+au FileType python        setlocal omnifunc=pythoncomplete#Complete
+au FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Syntax highlighting.
-if &t_Co > 2 || has("gui_running")
-	syntax on
-	set hls
-endif
+" Backup and other
+au BufWritePre * let &backupext = '.' . strftime("%Y%m%d_%H%M%S")
 
-" Colourscheme
-if &t_Co == 256 || has("gui_running")
-	color jellybeans
-else
-	color delek
-endif
-
-" GVim font
-if has("gui_running")
-	set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline\ 9
-endif
-
+" Restore file position
 au BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
 
-" Backup settings
+" When gaining / loosing focus, switch relative numberline on and off
+au FocusLost * :set norelativenumber
+au FocusGained * :set relativenumber
+au InsertEnter * :set norelativenumber
+au InsertLeave * :set relativenumber
+
+" "
+" Settings
+" "
+
+" General
+set autoindent                             " Indent automatically (electric)
+set smartindent                            " Indent using even more sophisticated rules
+set smarttab                               " Smart tab behaviour
+set backspace=indent,eol,start             " Allow backspace over indent, eol, start
+set hidden                                 " Allow background buffers.
+set ignorecase                             " Case insensitive search
+set smartcase                              " But don't ignore if search mixed
+set incsearch                              " Incremental search
+set spelllang=en_gb                        " Spell check language
+set viminfo+=n$XDG_CONFIG_HOME/vim/viminfo " Location of viminfo
+
+" Visual
+set foldlevelstart=99                      " Unfold all folds to start
+set laststatus=2                           " Show statusline
+set listchars=tab:»\ ,trail:·              " Show tabs and trailing whitespace
+set list                                   " Actually enable the above
+set number                                 " Numberline
+set relativenumber                         " Relative numbers
+set showcmd                                " Show command (bottom right)
+set guifont=Bitstream\ Vera\ Sans\ Mono\ for\ Powerline\ 9 " Font in GVim
+
+" Backup
 silent !mkdir $HOME/.cache $HOME/.cache/vim $HOME/.cache/vim/{backup,swap,undo} >/dev/null 2>&1
 
-au BufWritePre * let &backupext = '.' . strftime("%Y%m%d_%H%M%S")
+set backup                                 " Use backup files
+set backupdir=$HOME/.cache/vim/backup      " Location of backups
+set swapfile                               " Use swap files
+set directory=$HOME/.cache/vim/swap        " Location of swap files
+set undofile                               " Use undofiles
+set undodir=$HOME/.cache/vim/undo          " Location of undofiles
 
-set backup
-set backupdir=$HOME/.cache/vim/backup
-set swapfile
-set directory=$HOME/.cache/vim/swap
-set undofile
-set undodir=$HOME/.cache/vim/undo
-set viminfo+=n$XDG_CONFIG_HOME/vim/viminfo
+" Mouse control
+if has('mouse')
+    set mouse=a
+endif
 
-" Tab options
-"set expandtab
-set smarttab
-set shiftwidth=8
-set tabstop=8
+" Syntax Highlighting
+if &t_Co > 2 || has("gui_running")
+    syntax on
+    set hlsearch
 
-" Trailing whitespace and stuff.
-set listchars=tab:»·,trail:·
-set list
+    if &t_Co == 256 || has("gui_running")
+        color jellybeans
+    else
+        color delek
+    endif
+endif
 
-" Indentation.
-set ai "Auto indent
-set si "Smart indent
-
-" Status line.
-set laststatus=2
-
-" Spelling stuff.
-set spelllang=en_gb
-nnoremap <leader>ss :setlocal spell!<cr>
-
-" Allow buffers to exist in the background.
-set hidden
-
-" Buffer navigation.
-nnoremap <F7> :bprev<cr>
-nnoremap <F8> :bnext<cr>
-
-" Useful IDEesque mappings.
-nnoremap <F4> :wall<cr>
-nnoremap <F5> :make<cr>
-nnoremap <F6> :cw<cr>
-
-" List buffers and open buffer going prompt.
-nnoremap gb :ls<cr>:b<space>
-
-" Set filetype
-nnoremap <leader>ff :set ft=
-
-" Unbind the cursor keys in insert, normal and visual modes.
-for prefix in ['i', 'n', 'v']
-	for key in ['<Up>', '<Down>', '<Left>', '<Right>']
-		exe prefix . "noremap " . key . " <Nop>"
-	endfor
-endfor
-
-" Sort text alphabetically
-vnoremap <Leader>s :sort<CR>
-
-" Easier navigation in insert mode.
-inoremap <silent> <c-h> <left>
-inoremap <silent> <c-j> <down>
-inoremap <silent> <c-k> <up>
-inoremap <silent> <c-l> <right>
-
-" When some silly puts trailing whitespace in my files or uses tabs.
-nnoremap <silent> <leader>rw :let _tsval = @/<cr>:%s/\s*$//<cr>:let @/ = _tsval<cr>
-
-" Colorcolumn magics.
+" Highlight long lines
 highlight ColorColumn ctermbg=black
 call matchadd('ColorColumn', '\%81v', 100)
 
 " "
-" Relative and normal number lines
-" Toggle with ,n
-nnoremap <silent> <leader>n :set relativenumber!<cr>
-
-" Switch to normal when loosing focus and back when gaining
-au FocusLost * :set norelativenumber
-au FocusGained * :set relativenumber
-
-" Switch to normal when insert mode
-au InsertEnter * :set norelativenumber
-au InsertLeave * :set relativenumber
+" Mappings
 " "
+
+""
+" Normal Mode
+""
+
+" Spell check
+nnoremap <leader>s :setlocal spell!<cr>
+
+" Buffer navigation
+nnoremap <F7> :bprev<cr>
+nnoremap <F8> :bnext<cr>
+
+" Make and show Errors
+nnoremap <F5> :make<cr>
+nnoremap <F6> :cw<cr>
+
+" Set filetype
+nnoremap <leader>ff :set ft=
 
 " Clear highlighting
 nnoremap <silent> <f3> :nohlsearch<cr>
 
-" Really clear highlighting
-nnoremap <silent> <leader>ch :let @/ = ""<cr>
-
-" GUI
+"" GUI
 " Navigating windows.
 nnoremap <silent> <A-h> <C-w>h
 nnoremap <silent> <A-j> <C-w>j
@@ -289,7 +225,7 @@ nnoremap <silent> <A-i> <C-w>+
 nnoremap <silent> <A-o> <C-w>-
 nnoremap <silent> <A-p> <C-w>>
 
-" CLI
+"" CLI
 " Navigating windows.
 nnoremap <silent> h <C-w>h
 nnoremap <silent> j <C-w>j
@@ -310,3 +246,53 @@ nnoremap <silent> p <C-w>>
 
 " Space to toggle fold
 nnoremap <silent> <space> za
+
+" Tab to toggle virtualedit
+function! ToggleVirtual()
+    if &virtualedit == "all"
+        set virtualedit=
+    else
+        set virtualedit=all
+    endif
+endfunction
+
+nnoremap <silent> <tab> :call ToggleVirtual()<cr>
+
+" Remove trailing whitespace
+function! RemoveTrailing()
+    let line_num = line('.')
+    exe '%s/\s*$//'
+    exe 'normal! ' . line_num . 'G'
+endfunction
+
+nnoremap <silent> <leader>rw :call RemoveTrailing()<cr>
+
+""
+" Insert Mode
+""
+
+" C-hjkl instead of arrows
+inoremap <silent> <C-h> <left>
+inoremap <silent> <C-j> <down>
+inoremap <silent> <C-k> <up>
+inoremap <silent> <C-l> <right>
+
+""
+" Visual Mode
+""
+
+" Sort range
+vnoremap <Leader>s :sort<CR>
+
+""
+" Other
+""
+
+" Unbind the cursor keys in insert, normal and visual modes
+for prefix in ['i', 'n', 'v']
+    for key in ['<Up>', '<Down>', '<Left>', '<Right>']
+        exe prefix . "noremap " . key . " <Nop>"
+    endfor
+endfor
+
+" vim: set ts=4 sw=4 et:
