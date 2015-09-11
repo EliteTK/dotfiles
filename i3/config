@@ -51,6 +51,8 @@ for_window [class="Pavucontrol"] floating enable
 for_window [class="Emacs"] border 1pixel
 for_window [class="qemu-system-i386"] floating enable
 for_window [class="URxvt"] border 1pixel
+for_window [class="Chromium"] border 1pixel
+for_window [class="qutebrowser"] border 1pixel
 
 # workspace assignments
 assign [class="Steam"] 5
@@ -225,9 +227,9 @@ bar {
 #######################################################################
 
 # exec shoot
-bindsym --release Mod1+Shift+q exec /home/main/bin/shoot select
-bindsym --release Mod1+Shift+w exec /home/main/bin/shoot window
-bindsym --release Mod1+Shift+a exec /home/main/bin/shoot
+bindsym --release Mod1+Shift+q exec /home/main/bin/lshoot select
+bindsym --release Mod1+Shift+w exec /home/main/bin/lshoot window
+bindsym --release Mod1+Shift+a exec /home/main/bin/lshoot
 
 bindsym Mod4+bracketleft        move workspace to output left
 bindsym Mod4+bracketright       move workspace to output right
@@ -236,8 +238,8 @@ bindsym Mod4+Shift+bracketright move container to output right
 
 # Thinkpad Keys
 # audio
-bindsym XF86AudioRaiseVolume exec --no-startup-id i3blocks-volume 150 increase 5
-bindsym XF86AudioLowerVolume exec --no-startup-id i3blocks-volume 150 decrease 5
+bindsym XF86AudioRaiseVolume exec --no-startup-id i3blocks-volume 250 increase 5
+bindsym XF86AudioLowerVolume exec --no-startup-id i3blocks-volume 250 decrease 5
 bindsym XF86AudioMute        exec --no-startup-id i3blocks-mute
 bindsym XF86AudioMicMute     exec --no-startup-id i3blocks-micmute
 

@@ -18,3 +18,5 @@ alias chown='chown -c --preserve-root'
 alias chgrp='chgrp -c --preserve-root'
 
 alias dmesg='dmesg -ex'
+
+alias pass='EDITOR=nano pass' # Because vim backup, swap and undo files.

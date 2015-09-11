@@ -1,9 +1,7 @@
 [options]
-resize_grip = false
 scroll_on_output = false
 scroll_on_keystroke = true
 audible_bell = true
-visible_bell = true
 mouse_autohide = false
 allow_bold = true
 dynamic_title = true
@@ -17,6 +15,8 @@ search_wrap = true
 fullscreen = false
 #icon_name = terminal
 #geometry = 640x480
+
+modify_other_keys = false
 
 # "system", "on" or "off"
 cursor_blink = system
