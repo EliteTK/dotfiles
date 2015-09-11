@@ -1,0 +1,38 @@
+[general]
+metadata = ~/.local/share/offlineimap
+accounts = main
+socktimeout = 30
+fsync = false
+pythonfile = ~/.config/offlineimap/pythonfile.py
+
+[Account main]
+localrepository = main-local
+remoterepository = main-remote
+autorefresh = 0.25
+quick = 10
+status_backend = sqlite
+#proxy = SOCKS5:127.0.0.1:8080
+
+[Repository main-local]
+type = Maildir
+localfolders = ~/Maildir
+sep = /
+
+[Repository main-remote]
+type = IMAP
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+remotehost = the-tk.com
+remoteuser = tk
+remotepasseval = password('tk', 'the-tk.com')
+maxconnections = 4
+
+[mbnames]
+enabled = yes
+filename = ~/.config/mutt/mailboxes
+header = "mailboxes "
+peritem = "+%(foldername)s"
+sep = " "
+footer = "\n"
+
+# vim:set ft=conf:
