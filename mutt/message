@@ -1,0 +1,8 @@
+###################
+# Message options #
+###################
+
+set include=yes
+set edit_headers=yes
+
+# vim:set ft=muttrc:

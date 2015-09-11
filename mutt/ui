@@ -1,0 +1,34 @@
+####################
+# UI Configuration #
+####################
+
+auto_view text/html
+#auto_view image/*
+
+set sleep_time=0
+
+set sort="threads"
+set strict_threads=yes
+set sort_browser="date"
+set sort_aux="last-date-received"
+unset collapse_unread
+
+unalternative_order *
+alternative_order text/plain text/html text/*
+
+set sidebar_width=20
+set sidebar_visible=yes
+set sidebar_shortpath=yes
+color sidebar_new yellow default
+set sidebar_folderindent=yes
+
+set pager_stop=yes
+
+set auto_tag=yes
+
+#set allow_ansi=yes
+
+# Colour
+source "$XDG_CONFIG_HOME/mutt/colour"
+
+# vim:set ft=muttrc:

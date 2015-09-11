@@ -1,0 +1,10 @@
+######################
+# SMTP Configuration #
+######################
+
+set realname="Tomasz Kramkowski"
+set from="tk@the-tk.com"
+set sendmail="/usr/bin/msmtp"
+set signature="$XDG_CONFIG_HOME/mutt/signature.sig"
+
+# vim:set ft=muttrc:

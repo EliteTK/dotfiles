@@ -1,0 +1,17 @@
+# IMAP Configuration
+source "$XDG_CONFIG_HOME/mutt/imap"
+# SMTP Configuration
+source "$XDG_CONFIG_HOME/mutt/smtp"
+# Input Configuration
+source "$XDG_CONFIG_HOME/mutt/input"
+# Hooks
+source "$XDG_CONFIG_HOME/mutt/hooks"
+# UI Configuration
+source "$XDG_CONFIG_HOME/mutt/ui"
+# PGP Configuration
+source "$XDG_CONFIG_HOME/mutt/pgp"
+# Aliases
+set alias_file="~/.local/share/mutt/aliases"
+source "~/.local/share/mutt/aliases"
+# Message options
+source "$XDG_CONFIG_HOME/mutt/message"

@@ -1,0 +1,18 @@
+#####################
+# PGP Configuration #
+#####################
+
+source "$XDG_CONFIG_HOME/mutt/gpg.rc"
+
+set pgp_autosign=yes
+unset pgp_autoencrypt
+set pgp_replysign
+set pgp_replyencrypt
+set pgp_verify_sig=yes
+set pgp_timeout=6000
+set pgp_sign_as=0x0A5B8680
+set pgp_strict_enc
+unset pgp_long_ids
+set pgp_use_gpg_agent=yes
+
+# vim:set ft=muttrc:

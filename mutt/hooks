@@ -1,0 +1,7 @@
+#########
+# Hooks #
+#########
+
+folder-hook . "exec collapse-all"
+
+# vim:set ft=muttrc:
