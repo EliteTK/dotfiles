@@ -1,38 +1,18 @@
-# i3 config file (v4)
-#
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
-#
-# This config file uses keycodes (bindsym) and was written for the QWERTY
-# layout.
-#
-# To get a config file with the same key positions, but for your current
-# layout, use the i3-config-wizard
-#
+# vim:set et ft=conf:
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below. ISO 10646 = Unicode
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, if you need a lot of unicode glyphs or
-# right-to-left text rendering, you should instead use pango for rendering and
-
-#exec --no-startup-id setxkbmap gb
-#exec --no-startup-id feh --bg-fill $HOME/Media/Pictures/fancylines_linux.png
+exec --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/citadel.png
+exec --no-startup-id redshift-gtk -t 5500:4000
+exec --no-startup-id caffeine
 exec --no-startup-id nm-applet
+exec --no-startup-id qtox
+exec --no-startup-id syndaemon -t -R -i 0.8 -K -d
 
-#workspace 1 output HDMI-0
-#workspace 2 output DVI-I-0
-
-# chose a FreeType font, such as:
 font pango:Bitstream Vera Sans Mono 9
 
-# use Mouse+Mod4 to drag floating windows to their wanted position
 floating_modifier Mod4
 
 hide_edge_borders both
 
-# start a terminal
-# bindsym Mod4+Return exec i3-sensible-terminal
 bindsym Mod4+Return exec termite
 
 # set focus border
@@ -251,3 +231,6 @@ bindsym XF86WebCam exec pavucontrol
 
 # trackpad
 bindsym XF86TouchpadToggle exec --no-startup-id i3blocks-trackpad
+
+# dpass
+bindsym Mod4+p exec --no-startup-id /home/main/bin/dpass
