@@ -1,1 +1,1 @@
-Tomasz Kramkowski - 6FCE 8750 3AAF 42AB 3BF4  94FE 40B0 37BA 0A5B 8680
+Tomasz Kramkowski | GPG: 40B037BA0A5B8680 | Web: https://the-tk.com/

@@ -3,7 +3,6 @@
 ####################
 
 auto_view text/html
-#auto_view image/*
 
 set sleep_time=0
 
@@ -14,7 +13,7 @@ set sort_aux="last-date-received"
 unset collapse_unread
 
 unalternative_order *
-alternative_order text/plain text/html text/*
+alternative_order text/plain text/html text/* *
 
 set sidebar_width=20
 set sidebar_visible=yes

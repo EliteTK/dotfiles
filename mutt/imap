@@ -10,5 +10,7 @@ set record="+Sent"
 set postponed="+Drafts"
 set mail_check=20
 set beep_new=yes
+set check_new
+set timeout=5
 
 # vim:set ft=muttrc:

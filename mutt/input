@@ -8,12 +8,12 @@
 bind index - collapse-thread
 bind index _ collapse-all
 
-bind index <F7> sidebar-prev
-bind index <F8> sidebar-next
-bind index <F9> sidebar-open
-bind pager <F7> sidebar-prev
-bind pager <F8> sidebar-next
-bind pager <F9> sidebar-open
+bind index <esc>k sidebar-prev
+bind index <esc>j sidebar-next
+bind index <esc>l sidebar-open
+bind pager <esc>k sidebar-prev
+bind pager <esc>j sidebar-next
+bind pager <esc>l sidebar-open
 
 bind editor <TAB> complete-query
 bind editor ^T complete
