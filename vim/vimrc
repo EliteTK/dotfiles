@@ -1,14 +1,10 @@
-set rtp=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+set rtp+=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
 
 let mapleader = ","
 let g:mapleader = ","
 
 " Improve!
 set nocompatible
-
-" Automatically source the vim config when saved. Because convenience or
-" something.
-au! bufwritepost .vimrc source %
 
 " "
 " Vundle.
@@ -25,7 +21,10 @@ Plugin 'gmarik/vundle'
 " "
 
 Plugin 'Shougo/neocomplete.vim'
-Plugin 'bling/vim-airline'
+Plugin 'Shougo/neoinclude.vim'
+Plugin 'Shougo/neopairs.vim'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/vimshell.vim'
 Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'edkolev/promptline.vim'
 Plugin 'edkolev/tmuxline.vim'
@@ -33,6 +32,7 @@ Plugin 'glsl.vim'
 Plugin 'jnurmine/Zenburn'
 Plugin 'kien/ctrlp.vim'
 Plugin 'lervag/vimtex'
+Plugin 'luochen1990/rainbow'
 Plugin 'majutsushi/tagbar'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'scrooloose/nerdcommenter'
@@ -40,7 +40,9 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-fugitive'
-Plugin 'vivien/vim-addon-linux-coding-style'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+"Plugin 'vivien/vim-addon-linux-coding-style'
 
 call vundle#end()
 
@@ -53,10 +55,7 @@ filetype plugin indent on
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
-if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-endif
-let g:airline_symbols.space = "\ua0"
+let g:airline_section_z = '%3p%% %#__accent_bold#%{g:airline_symbols.linenr}%#__accent_bold#%4l%#__restore__#%#__restore__#/%L:%3v'
 
 " Neocomplete
 let g:neocomplete#enable_at_startup = 1
@@ -66,33 +65,43 @@ inoremap <expr><c-g> neocomplete#undo_completion()
 inoremap <expr><c-l> neocomplete#complete_common_string()
 
 inoremap <silent> <cr> <c-r>=<sid>cr_function()<cr>
-function! s:cr_function()
+fu! s:cr_function()
     return neocomplete#close_popup() ."\<cr>"
-endfunction
+endf
 
-inoremap <expr><tab>  pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <expr><C-h>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-e> neocomplete#cancel_popup()
 
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_overwrite_completefunc     = 1
-"let g:neocomplete#force_omni_input_patterns.c      = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
-let g:neocomplete#force_omni_input_patterns.cpp    = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
-let g:neocomplete#force_omni_input_patterns.objc   = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
-let g:neocomplete#force_omni_input_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+"if !exists('g:neocomplete#force_omni_input_patterns')
+  "let g:neocomplete#force_omni_input_patterns = {}
+"endif
+"let g:neocomplete#force_overwrite_completefunc = 1
+""let g:neocomplete#force_omni_input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+"let g:neocomplete#force_omni_input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+"let g:neocomplete#force_omni_input_patterns.objc = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)'
+"let g:neocomplete#force_omni_input_patterns.objcpp = '\[\h\w*\s\h\?\|\h\w*\%(\.\|->\)\|\h\w*::\w*'
+
+" Neocomplete
+au FileType css setlocal omnifunc=csscomplete#CompleteCSS
+au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+au FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+au FileType python setlocal omnifunc=pythoncomplete#Complete
+au FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Vim multiple cursors
-function! Multiple_cursors_before()
+fu! Multiple_cursors_before()
     exe 'NeoCompleteLock'
-endfunction
+endf
 
-function! Multiple_cursors_after()
+fu! Multiple_cursors_after()
     exe 'NeoCompleteUnlock'
-endfunction
+endf
+
+" Rainbow
+let g:rainbow_active = 1
 
 " "
 " Autocommands
@@ -102,13 +111,6 @@ endfunction
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl  " GLSL
 au BufNewFile,BufRead *.clw setf clarion                        " Clarion
 au BufNewFile,BufRead *.rfc setf rfc                            " RFC
-
-" Neocomplete
-au FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-au FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-au FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-au FileType python        setlocal omnifunc=pythoncomplete#Complete
-au FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Backup and other
 au BufWritePre * let &backupext = '.' . strftime("%Y%m%d_%H%M%S")
@@ -172,6 +174,8 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 
     if &t_Co == 256 || has("gui_running")
+        "let g:jellybeans_use_term_background_color = 1
+        "let g:jellybeans_use_term_italics = 1
         color jellybeans
     else
         color delek
@@ -249,22 +253,22 @@ nnoremap <silent> p <C-w>>
 nnoremap <silent> <space> za
 
 " Tab to toggle virtualedit
-function! ToggleVirtual()
+fu! ToggleVirtual()
     if &virtualedit == "all"
         set virtualedit=
     else
         set virtualedit=all
     endif
-endfunction
+endf
 
 nnoremap <silent> <tab> :call ToggleVirtual()<cr>
 
 " Remove trailing whitespace
-function! RemoveTrailing()
+fu! RemoveTrailing()
     let line_num = line('.')
     exe '%s/\s*$//'
     exe 'normal! ' . line_num . 'G'
-endfunction
+endf
 
 nnoremap <silent> <leader>rw :call RemoveTrailing()<cr>
 
@@ -295,5 +299,9 @@ for prefix in ['i', 'n', 'v']
         exe prefix . "noremap " . key . " <Nop>"
     endfor
 endfor
+
+" sprunge bindings
+nnoremap <Leader>P :w !curl -F "sprunge=<-" http://sprunge.us<CR>
+vnoremap <Leader>P :w !curl -F "sprunge=<-" http://sprunge.us<CR>
 
 " vim: set ts=4 sw=4 et:
