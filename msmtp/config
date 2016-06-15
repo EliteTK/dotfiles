@@ -1,0 +1,12 @@
+defaults
+port 465
+tls on
+tls_starttls off
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+
+account default
+host erebus.the-tk.com
+from tk@the-tk.com
+auth on
+user tk
+passwordeval pass mail/tk@the-tk.com
