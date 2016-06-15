@@ -1,43 +1,27 @@
-source $ZDOTDIR/.zshenv
-
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
 SAVEHIST=1000
-setopt appendhistory extendedglob nomatch notify
+
+setopt appendhistory extendedglob nomatch notify HIST_IGNORE_DUPS
 unsetopt autocd beep
 bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
 zstyle :compinstall filename '/home/main/.zshrc'
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
-autoload -U promptinit
-promptinit
-
-prompt redhat
-
-setopt HIST_IGNORE_DUPS
-
-if [ "$TERM" = "xterm-termite" ]; then
+if [[ "$TERM" = "xterm-termite" || "$TERM" = "xterm-256color" ]]; then
 	autoload -U colors && colors
 	PROMPT="%{$fg[white]%}┌ %{$fg_bold[white]%}%n%{$fg_bold[red]%}@%{$fg_no_bold[blue]%}%m%{$fg_no_bold[green]%}:%{$fg_bold[green]%}%~
-	%{$fg_bold[black]%}┘ %{$fg_bold[magenta]%}%#%{$reset_color%} "
+%{$fg_bold[black]%}┘ %{$fg_bold[magenta]%}%#%{$reset_color%} "
 	RPROMPT="%D %T"
 else
 	PROMPT="┌ %n@%m:%~
-┘ # "
+┘ %# "
 	RPROMPT="%D %T"
 fi
 
-#PERL_MB_OPT="--install_base \"/home/main/perl5\""; export PERL_MB_OPT;
-#PERL_MM_OPT="INSTALL_BASE=/home/main/perl5"; export PERL_MM_OPT;
-
-# # Make keys behave
-# create a zkbd compatible hash;
+# Key behaviour (I should just use emacs bindings)
 typeset -A key
 
 key[Home]=${terminfo[khome]}
@@ -51,7 +35,6 @@ key[Right]=${terminfo[kcuf1]}
 key[PageUp]=${terminfo[kpp]}
 key[PageDown]=${terminfo[knp]}
 
-# setup key accordingly
 [[ -n "${key[Home]}"     ]]  && bindkey  "${key[Home]}"     beginning-of-line
 [[ -n "${key[End]}"      ]]  && bindkey  "${key[End]}"      end-of-line
 [[ -n "${key[Insert]}"   ]]  && bindkey  "${key[Insert]}"   overwrite-mode
@@ -63,8 +46,6 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"   beginning-of-buffer-or-history
 [[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" end-of-buffer-or-history
 
-# Finally, make sure the terminal is in application mode, when zle is
-# active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     function zle-line-init () {
         printf '%s' "${terminfo[smkx]}"
@@ -75,30 +56,8 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     zle -N zle-line-init
     zle -N zle-line-finish
 fi
-# #
 
-# bash style help
-autoload -U run-help
-autoload run-help-git
-autoload run-help-svn
-autoload run-help-svk
-unalias run-help
-alias help=run-help
-
-# Syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# Prompt
-PROMPT="%{$fg[white]%}┌ %{$fg_bold[white]%}%n%{$fg_bold[red]%}@%{$fg_no_bold[blue]%}%m%{$fg_no_bold[green]%}:%{$fg_bold[green]%}%E%~
-%{$fg_bold[black]%}┘ %{$fg_bold[magenta]%}%#%{$reset_color%} "
-RPROMPT="%D %T"
-
-# Directory hashes.
-if [[ -d $HOME/projects ]]; then
-    for d in $HOME/projects/*(/); do
-        hash -d ${d##*/}=$d
-    done
-fi
 
 # Colourful man pages.
 man() {

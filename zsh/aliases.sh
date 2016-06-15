@@ -19,4 +19,6 @@ alias chgrp='chgrp -c --preserve-root'
 
 alias dmesg='dmesg -ex'
 
-alias pass='EDITOR=nano pass' # Because vim backup, swap and undo files.
+alias pass='EDITOR=vi pass'
+
+alias vim='nvim'
