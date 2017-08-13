@@ -1,14 +1,12 @@
-exec --no-startup-id feh --no-fehbg --bg-fill $HOME/Pictures/citadel.png
-exec --no-startup-id redshift-gtk -t 5500:4000
-exec --no-startup-id caffeine
-exec --no-startup-id nm-applet
 exec --no-startup-id qtox
-exec --no-startup-id syndaemon -t -R -i 0.8 -K -d
-exec --no-startup-id mpd
 
 font pango:Bitstream Vera Sans Mono 9
 
 floating_modifier Mod4
+
+focus_follows_mouse yes
+mouse_warping none
+focus_on_window_activation urgent
 
 hide_edge_borders both
 
@@ -193,9 +191,9 @@ bar {
 }
 
 # exec shoot
-bindsym --release Mod1+Shift+q exec /home/main/bin/lshoot select
-bindsym --release Mod1+Shift+w exec /home/main/bin/lshoot window
-bindsym --release Mod1+Shift+a exec /home/main/bin/lshoot
+bindsym --release Mod1+Shift+q exec /home/main/bin/shoot select
+bindsym --release Mod1+Shift+w exec /home/main/bin/shoot window
+bindsym --release Mod1+Shift+a exec /home/main/bin/shoot
 
 bindsym Mod4+bracketleft        move workspace to output left
 bindsym Mod4+bracketright       move workspace to output right
@@ -223,3 +221,8 @@ bindsym XF86Display exec arandr
 
 # dpass
 bindsym Mod4+p exec --no-startup-id /home/main/bin/dpass
+
+# mpc
+bindsym XF86AudioPrev exec --no-startup-id mpc prev
+bindsym XF86AudioNext exec --no-startup-id mpc next
+bindsym XF86AudioPlay exec --no-startup-id mpc toggle
