@@ -21,4 +21,4 @@ alias dmesg='dmesg -ex'
 
 alias pass='EDITOR=vi pass'
 
-alias vim='nvim'
+alias vim='vis'
