@@ -143,7 +143,9 @@ nnoremap <silent> <leader>s :setlocal spell!<CR>
 
 " Navigation
 nnoremap <silent> <F7> :bprev<CR>
+nnoremap <silent> <A-h> :bprev<CR>
 nnoremap <silent> <F8> :bnext<CR>
+nnoremap <silent> <A-l> :next<CR>
 
 tnoremap <A-space> <C-\><C-n>
 
