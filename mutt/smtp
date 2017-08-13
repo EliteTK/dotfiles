@@ -4,7 +4,7 @@
 
 set realname="Tomasz Kramkowski"
 set from="tk@the-tk.com"
-set sendmail="/usr/bin/msmtp -C $XDG_CONFIG_HOME/msmtp/config"
+set sendmail="$HOME/bin/muttsendcheck.py -C $XDG_CONFIG_HOME/msmtp/config"
 set signature="$XDG_CONFIG_HOME/mutt/signature.sig"
 
 # vim:set ft=muttrc:
