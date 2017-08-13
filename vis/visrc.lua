@@ -1,0 +1,25 @@
+require('vis')
+
+vis.events.subscribe(vis.events.INIT, function()
+   vis:command('set autoindent')
+   vis:command('set theme jellybeans')
+   vis:command('set escdelay 1')
+   vis:map(vis.modes.VISUAL_LINE, ',s', ':|sort<Enter>')
+   vis:map(vis.modes.NORMAL, ',cc', 'V,cc')
+   vis:map(vis.modes.NORMAL, ',cu', 'V,cu')
+   vis:map(vis.modes.VISUAL_LINE, ',cc', ':x/^.+$/ i@//@<Enter><Escape><Escape>')
+   vis:map(vis.modes.VISUAL_LINE, ',cu', ':x@^[ \\t]*//@ x@//@ d<Enter><Escape><Escape>')
+end)
+
+vis.events.subscribe(vis.events.WIN_OPEN, function(win)
+   vis:command('set colorcolumn 80')
+   vis:command('set cursorline')
+   vis:command('set relativenumbers')
+   vis:command('set show-tabs')
+   vis:command('set show-newlines')
+   vis:command('set show-spaces')
+end)
+
+-- Plugins
+require('plugins/smartbs')
+require('plugins/ftplugin')
